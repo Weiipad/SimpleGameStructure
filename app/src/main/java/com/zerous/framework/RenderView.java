@@ -7,27 +7,24 @@ import android.util.*;
 import android.widget.*;
 import java.io.*;
 import android.os.*;
+import android.content.res.*;
 
-public class GameView extends SurfaceView implements Runnable
+public class RenderView extends SurfaceView implements Runnable
 {
 	volatile boolean running = false;
 	SurfaceHolder holder;
 	Thread gt;
 	Bitmap framebuffer;
-
+	Game game;
+	
 	Canvas c;
 
-	public android.content.res.Resources androidRes;
-
-	public Context context;
-
-	public GameView(Context c, Bitmap framebuffer)
+	public RenderView(Game game, Bitmap framebuffer)
 	{
-		super(c);
+		super(game);
+		this.game = game;
 		holder = this.getHolder();
-		context = c;	
 		this.framebuffer = framebuffer;
-		androidRes = c.getResources();
 	}
 
 	public void resume()
@@ -61,8 +58,15 @@ public class GameView extends SurfaceView implements Runnable
 		{
 			if(!holder.getSurface().isValid())
 				continue;
+			
+			game.getCurrentScreen().update();
+			game.getCurrentScreen().render();
+			
 			c = holder.lockCanvas();
-			currentScreen.draw(c);
+			
+			c.drawBitmap(framebuffer, 0, 0, new Paint());
+			//c.drawColor(Color.BLUE);
+			
 			if(c != null)
 				holder.unlockCanvasAndPost(c);
 		}

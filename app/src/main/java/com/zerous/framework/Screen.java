@@ -1,5 +1,8 @@
 package com.zerous.framework;
 
-public class Screen
+public interface Screen
 {
+	public void update()
+	
+	public void render()
 }
