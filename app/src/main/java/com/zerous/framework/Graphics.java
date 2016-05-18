@@ -6,10 +6,20 @@ public class Graphics
 	Paint paint;
 	Canvas canvas;
 	
+	public static enum PixmapFormat
+	{
+		ARGB8888, ARGB4444, RGB565
+	}
+	
 	public Graphics(Bitmap framebuffer)
 	{
 		canvas = new Canvas(framebuffer);
 		paint = new Paint();
+	}
+	
+	public Bitmap newBitmap()
+	{
+		
 	}
 	
 	public void clear(int color)

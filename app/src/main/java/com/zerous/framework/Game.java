@@ -8,6 +8,8 @@ import android.view.*;
 public abstract class Game extends Activity
 {
 	Graphics graphics;
+	FileIO file;
+	
 	Screen screen;
 	RenderView renderView;
 	
@@ -23,10 +25,12 @@ public abstract class Game extends Activity
 		Bitmap framebuffer = Bitmap.createBitmap(d.getWidth(), d.getHeight(), Bitmap.Config.ARGB_8888);
 		renderView = new RenderView(this, framebuffer);
 		graphics = new Graphics(framebuffer);
+		file = new FileIO(this);
 		
 		screen = getStartScreen();
 		
 		Zex.graphics = graphics;
+		Zex.file = file;
 		
 		setContentView(renderView);
 	}
@@ -46,6 +50,11 @@ public abstract class Game extends Activity
 		// TODO: Implement this method
 		super.onPause();
 		renderView.pause();
+	}
+	
+	public FileIO getFileIO()
+	{
+		return file;
 	}
 	
 	public Graphics getGraphics()
