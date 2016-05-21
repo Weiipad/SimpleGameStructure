@@ -10,7 +10,7 @@ public class TouchHandler implements OnTouchListener
 {
 	private static final int MAX_TOUCHPOINTS = 10;
 
-	boolean[] isTouched = new boolean[MAX_TOUCHPOINTS];
+	int[] touchType = new int[MAX_TOUCHPOINTS];
 	int[] touchX = new int[MAX_TOUCHPOINTS];
 	int[] touchY = new int[MAX_TOUCHPOINTS];
 	int[] id = new int[MAX_TOUCHPOINTS];
@@ -46,7 +46,6 @@ public class TouchHandler implements OnTouchListener
 			{
 				if(i >= pointerCount)
 				{
-					isTouched[i] = false;
 					id[i] = -1;
 					continue;
 				}
@@ -64,7 +63,7 @@ public class TouchHandler implements OnTouchListener
 						touchEvent.pointer = pointerId;
 						touchEvent.x = touchX[i] = (int)event.getX(i);
 						touchEvent.y = touchY[i] = (int)event.getY(i);
-						isTouched[i] = true;
+						touchType[i] = touchEvent.type;
 						id[i] = pointerId;
 						touchEventsBuffer.add(touchEvent);
 						break;
@@ -77,7 +76,7 @@ public class TouchHandler implements OnTouchListener
 						touchEvent.pointer = pointerId;
 						touchEvent.x = touchX[i] = (int)event.getX(i);
 						touchEvent.y = touchY[i] = (int)event.getY(i);
-						isTouched[i] = false;
+						touchType[i] = touchEvent.type;
 						id[i] = -1;
 						touchEventsBuffer.add(touchEvent);
 						break;
@@ -88,7 +87,7 @@ public class TouchHandler implements OnTouchListener
 						touchEvent.pointer = pointerId;
 						touchEvent.x = touchX[i] = (int)event.getX(i);
 						touchEvent.y = touchY[i] = (int)event.getY(i);
-						isTouched[i] = true;
+						touchType[i] = touchEvent.type;
 						id[i] = pointerId;
 						touchEventsBuffer.add(touchEvent);
 						break;
@@ -98,15 +97,15 @@ public class TouchHandler implements OnTouchListener
 		}
 	}
 
-	public boolean isTouchDown(int pointer)
+	public int getTouchType(int pointer)
 	{
 		synchronized(this)
 		{
 			int index = getIndex(pointer);
 			if(index < 0||index >= MAX_TOUCHPOINTS)
-				return false;
+				return 1;
 			else
-				return isTouched[index];
+				return touchType[index];
 		}
 	}
 

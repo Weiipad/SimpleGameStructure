@@ -4,4 +4,5 @@ public class Zex
 {
 	public static FileIO file;
 	public static Graphics graphics;
+	public static Input input;
 }

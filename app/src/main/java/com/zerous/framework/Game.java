@@ -9,6 +9,7 @@ public abstract class Game extends Activity
 {
 	Graphics graphics;
 	FileIO file;
+	Input input;
 	
 	Screen screen;
 	RenderView renderView;
@@ -24,13 +25,15 @@ public abstract class Game extends Activity
 		
 		Bitmap framebuffer = Bitmap.createBitmap(d.getWidth(), d.getHeight(), Bitmap.Config.ARGB_8888);
 		renderView = new RenderView(this, framebuffer);
-		graphics = new Graphics(framebuffer);
+		graphics = new Graphics(getAssets(), framebuffer);
 		file = new FileIO(this);
+		input = new Input(renderView);
 		
 		screen = getStartScreen();
 		
 		Zex.graphics = graphics;
 		Zex.file = file;
+		Zex.input = input;
 		
 		setContentView(renderView);
 	}
@@ -42,6 +45,8 @@ public abstract class Game extends Activity
 		super.onResume();
 		renderView.resume();
 		Zex.graphics = getGraphics();
+		Zex.file = getFileIO();
+		Zex.input = getInput();
 	}
 
 	@Override
@@ -50,6 +55,11 @@ public abstract class Game extends Activity
 		// TODO: Implement this method
 		super.onPause();
 		renderView.pause();
+	}
+	
+	public Input getInput()
+	{
+		return input;
 	}
 	
 	public FileIO getFileIO()

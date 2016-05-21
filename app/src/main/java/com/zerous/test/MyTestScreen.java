@@ -16,6 +16,6 @@ public class MyTestScreen implements Screen
 	public void render()
 	{
 		Zex.graphics.clear(0xffffffff);
-		Zex.graphics.drawText("HelloWorld", 50, 50);
+		Zex.graphics.drawText("HelloWorld" + Zex.input.getTouchType(0), 50, 50);
 	}
 }
